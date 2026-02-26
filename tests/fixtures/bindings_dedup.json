@@ -1,0 +1,20 @@
+[
+  {
+    "role": "roles/viewer",
+    "members": [
+      "user:alice@example.com"
+    ]
+  },
+  {
+    "role": "roles/editor",
+    "members": [
+      "user:alice@example.com"
+    ]
+  },
+  {
+    "role": "roles/viewer",
+    "members": [
+      "user:alice@example.com"
+    ]
+  }
+]
