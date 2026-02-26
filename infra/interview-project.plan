@@ -1,0 +1,173 @@
+Terraform will perform the following actions:
+
+  # google_container_cluster.autopilot will be created
+  + resource "google_container_cluster" "autopilot" {
+      + cluster_ipv4_cidr                        = (known after apply)
+      + datapath_provider                        = (known after apply)
+      + default_max_pods_per_node                = (known after apply)
+      + deletion_protection                      = true
+      + disable_l4_lb_firewall_reconciliation    = false
+      + effective_labels                         = {
+          + "goog-terraform-provisioned" = "true"
+        }
+      + enable_autopilot                         = true
+      + enable_cilium_clusterwide_network_policy = false
+      + enable_fqdn_network_policy               = false
+      + enable_intranode_visibility              = true
+      + enable_kubernetes_alpha                  = false
+      + enable_l4_ilb_subsetting                 = false
+      + enable_legacy_abac                       = false
+      + enable_multi_networking                  = false
+      + enable_shielded_nodes                    = true
+      + endpoint                                 = (known after apply)
+      + id                                       = (known after apply)
+      + label_fingerprint                        = (known after apply)
+      + location                                 = "us-central1"
+      + logging_service                          = (known after apply)
+      + master_version                           = (known after apply)
+      + monitoring_service                       = (known after apply)
+      + name                                     = "iam-evidence-cluster"
+      + network                                  = "default"
+      + networking_mode                          = "VPC_NATIVE"
+      + node_locations                           = (known after apply)
+      + node_version                             = (known after apply)
+      + operation                                = (known after apply)
+      + private_ipv6_google_access               = (known after apply)
+      + project                                  = (known after apply)
+      + self_link                                = (known after apply)
+      + services_ipv4_cidr                       = (known after apply)
+      + subnetwork                               = (known after apply)
+      + terraform_labels                         = {
+          + "goog-terraform-provisioned" = "true"
+        }
+      + tpu_ipv4_cidr_block                      = (known after apply)
+
+      + addons_config (known after apply)
+
+      + anonymous_authentication_config (known after apply)
+
+      + authenticator_groups_config (known after apply)
+
+      + cluster_autoscaling (known after apply)
+
+      + confidential_nodes (known after apply)
+
+      + control_plane_endpoints_config (known after apply)
+
+      + cost_management_config (known after apply)
+
+      + database_encryption (known after apply)
+
+      + default_snat_status (known after apply)
+
+      + enterprise_config (known after apply)
+
+      + gateway_api_config (known after apply)
+
+      + gke_auto_upgrade_config (known after apply)
+
+      + identity_service_config (known after apply)
+
+      + ip_allocation_policy (known after apply)
+
+      + logging_config (known after apply)
+
+      + master_auth (known after apply)
+
+      + master_authorized_networks_config (known after apply)
+
+      + mesh_certificates (known after apply)
+
+      + monitoring_config (known after apply)
+
+      + node_config (known after apply)
+
+      + node_pool (known after apply)
+
+      + node_pool_auto_config (known after apply)
+
+      + node_pool_defaults (known after apply)
+
+      + notification_config (known after apply)
+
+      + pod_autoscaling (known after apply)
+
+      + rbac_binding_config (known after apply)
+
+      + release_channel (known after apply)
+
+      + security_posture_config (known after apply)
+
+      + service_external_ips_config (known after apply)
+
+      + vertical_pod_autoscaling (known after apply)
+
+      + workload_identity_config (known after apply)
+    }
+
+  # google_project_iam_member.collector_project_role will be created
+  + resource "google_project_iam_member" "collector_project_role" {
+      + etag    = (known after apply)
+      + id      = (known after apply)
+      + member  = "serviceAccount:iam-collector-sa@omni-interview-project.iam.gserviceaccount.com"
+      + project = "omni-interview-project"
+      + role    = "roles/resourcemanager.projectIamAdmin"
+    }
+
+  # google_service_account.iam_collector will be created
+  + resource "google_service_account" "iam_collector" {
+      + account_id   = "iam-collector-sa"
+      + disabled     = false
+      + display_name = "IAM Evidence Collector Service Account"
+      + email        = "iam-collector-sa@omni-interview-project.iam.gserviceaccount.com"
+      + id           = (known after apply)
+      + member       = "serviceAccount:iam-collector-sa@omni-interview-project.iam.gserviceaccount.com"
+      + name         = (known after apply)
+      + project      = "omni-interview-project"
+      + unique_id    = (known after apply)
+    }
+
+  # google_service_account_iam_binding.workload_identity will be created
+  + resource "google_service_account_iam_binding" "workload_identity" {
+      + etag               = (known after apply)
+      + id                 = (known after apply)
+      + members            = [
+          + "serviceAccount:omni-interview-project.svc.id.goog[iam-evidence/iam-collector-sa]",
+        ]
+      + role               = "roles/iam.workloadIdentityUser"
+      + service_account_id = (known after apply)
+    }
+
+  # kubernetes_namespace.iam_evidence will be created
+  + resource "kubernetes_namespace" "iam_evidence" {
+      + id                               = (known after apply)
+      + wait_for_default_service_account = false
+
+      + metadata {
+          + generation       = (known after apply)
+          + name             = "iam-evidence"
+          + resource_version = (known after apply)
+          + uid              = (known after apply)
+        }
+    }
+
+  # kubernetes_service_account.iam_collector will be created
+  + resource "kubernetes_service_account" "iam_collector" {
+      + automount_service_account_token = true
+      + default_secret_name             = (known after apply)
+      + id                              = (known after apply)
+
+      + metadata {
+          + annotations      = {
+              + "iam.gke.io/gcp-service-account" = "iam-collector-sa@omni-interview-project.iam.gserviceaccount.com"
+            }
+          + generation       = (known after apply)
+          + name             = "iam-collector-sa"
+          + namespace        = "iam-evidence"
+          + resource_version = (known after apply)
+          + uid              = (known after apply)
+        }
+    }
+
+Plan: 6 to add, 0 to change, 0 to destroy.
+
