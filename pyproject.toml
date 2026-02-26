@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gcp-iam-evidence-collector"
+version = "0.1.0"
+description = "Collect project-level IAM bindings and write evidence by principal."
+requires-python = ">=3.10"
+dependencies = [
+  "google-cloud-resource-manager>=1.14.2",
+  "google-auth>=2.36.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0",
+]
+
+[tool.setuptools]
+packages = []

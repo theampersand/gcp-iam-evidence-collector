@@ -1,0 +1,11 @@
+{
+  "user:alice@example.com": [
+    "roles/viewer"
+  ],
+  "group:eng@example.com": [
+    "roles/editor"
+  ],
+  "serviceAccount:svc@example.iam.gserviceaccount.com": [
+    "roles/logging.logWriter"
+  ]
+}

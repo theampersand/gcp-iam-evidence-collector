@@ -1,0 +1,23 @@
+{
+  "name": "gcp-iam-evidence-collector",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "runArgs": [
+    "-v",
+    "${localEnv:HOME}/.config/gcloud:/home/vscode/.config/gcloud:rw",
+    "-v",
+    "${localEnv:HOME}/.config/gcloud/application_default_credentials.json:/home/vscode/.config/gcloud/application_default_credentials.json:ro"
+  ],
+  "features": {},
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ]
+    }
+  },
+  "postCreateCommand": "python -m pip install --upgrade pip && pip install -e '.[dev]'",
+  "remoteUser": "vscode"
+}
