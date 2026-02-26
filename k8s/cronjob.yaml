@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gcp-iam-evidence-collector
+  namespace: iam-evidence
+spec:
+  schedule: "0 0 * * 0"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: iam-collector-sa
+          restartPolicy: OnFailure
+          containers:
+            - name: collector
+              image: ghcr.io/your-org/gcp-iam-evidence-collector:latest
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: PROJECT_ID
+                  value: "your-gcp-project-id"
+                - name: OUTPUT_DIR
+                  value: "/workspace/output"
+              command: ["python", "/app/src/main.py"]
+              args:
+                - "--project-id"
+                - "$(PROJECT_ID)"
+                - "--output-dir"
+                - "$(OUTPUT_DIR)"
